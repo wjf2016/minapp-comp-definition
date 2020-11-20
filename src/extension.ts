@@ -104,6 +104,9 @@ export function activate(context: vscode.ExtensionContext) {
             compPath = config.usingComponents[tag];
           }
 
+          // 获取当前json的path
+          let prePath = path.parse(jsonFile).dir
+
           // 页面或者组件没有定义，查找一下全局配置
           if (!compPath) {
             jsonFile = path.join(rootPath, appFile);
@@ -112,9 +115,12 @@ export function activate(context: vscode.ExtensionContext) {
             if (config.usingComponents && config.usingComponents[tag]) {
               compPath = config.usingComponents[tag];
             }
+
+            // 使用项目根path
+            prePath = rootPath
           }
 
-          const componentPath = path.join(rootPath, `${compPath}.js`);
+          const componentPath = path.join(prePath, `${compPath}.js`);
 
           return new vscode.Location(
             vscode.Uri.file(componentPath),
